@@ -27,7 +27,7 @@ public class HttpController {
             result.put(headerName, request.getHeader(headerName));
         }
 
-        return "hello";
+        return "hello jenkins";
     }
 }
 
