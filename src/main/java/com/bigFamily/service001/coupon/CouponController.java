@@ -1,5 +1,6 @@
 package com.bigFamily.service001.coupon;
 
+import com.bigFamily.service001.couponchannel.ExcelOperater6;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,9 @@ public class CouponController {
     private ExcelOperater2 excelOperater2;
 
     @Autowired
+    private ExcelOperater2C excelOperater2c;
+
+    @Autowired
     private ExcelOperater3 excelOperater3;
 
     @Autowired
@@ -24,6 +28,9 @@ public class CouponController {
 
     @Autowired
     private ExcelOperater5 excelOperater5;
+
+    @Autowired
+    private ExcelOperater6 excelOperater6;
 
     @RequestMapping(value="/handleCouponTimespan", method= RequestMethod.GET)
     @ResponseBody
@@ -46,6 +53,13 @@ public class CouponController {
         return "success";
     }
 
+    @GetMapping(value="/loadProducts")
+    @ResponseBody
+    public String loadProducts(){
+        excelOperater2c.loadProducts();
+        return "success";
+    }
+
     @GetMapping(value="/addCouponCondition")
     @ResponseBody
     public String addCouponCondition(){
@@ -64,6 +78,13 @@ public class CouponController {
     @ResponseBody
     public String addCouponAmount(){
         excelOperater5.addCouponAmount();
+        return "success";
+    }
+
+    @GetMapping(value="/buildCouponChannel")
+    @ResponseBody
+    public String buildCouponChannel(){
+        excelOperater6.buildCouponChannel();
         return "success";
     }
 }

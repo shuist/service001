@@ -177,6 +177,11 @@ public class ExcelOperater1 {
                         String tuyaCouponId = cell.getContents();
                         String key = CouponConstant.TUYA_COUPON_ID_KEY+tuyaCouponId;
                         redisService.set(key,val);
+
+                        cell = readsheet.getCell(1, i);
+                        String tuyaCouponCode = cell.getContents().trim();
+                        String tuyaCouponCodekey = CouponConstant.TUYA_COUPON_CODE+tuyaCouponCode;
+                        redisService.set(tuyaCouponCodekey,val);
                     }
                     if (temp == 2) {//生成code
                         val = RandomUtils.nextInt(10, 100) + StringUtil.generateShortUUID();
@@ -241,7 +246,7 @@ public class ExcelOperater1 {
                         val = "0";
                     }
                     if (temp == 21) {//create_by
-                        val = "";
+                        val = "涂鸦导入";
                     }
                     if (temp == 22) {//update_by
                         val = "";

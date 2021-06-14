@@ -108,7 +108,10 @@ public class ExcelOperater3 {
                             label = new Label(6, i, conditionVals[1]);
                             ws.addCell(label);
                         }else if("2".equals(scope)){//商品,添加product_id
-                            label = new Label(5, i, conditionVals[1]);
+                            String tuyaProductCode = conditionVals[1];
+                            String key = CouponConstant.TUYPA_PRODUCT_CODE+tuyaProductCode;
+                            String productId = (String) redisService.get(key);
+                            label = new Label(5, i, productId);
                             ws.addCell(label);
                         }
                     }else if(j!=5 && j!=6){
