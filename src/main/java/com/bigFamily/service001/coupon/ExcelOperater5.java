@@ -16,28 +16,16 @@ import java.util.Map;
 
 
 /**
- * add condition
- *
- * tuya
- * catalog：数据类型 0=不限制范围，3=新零售商品，4=新零售类⽬
- * code：商品code|类⽬code
- *
- * itnode
- * scope（0 全部；1 类目；2 商品）
- * product_id 如使用范围是商品，必填
- * category_id 如使用范围是分类，必填
- *
+ * add coupon amount
  */
 @Component
 public class ExcelOperater5 {
 
     @Autowired
     private RedisServiceImpl redisService;
-    private static Map<String,String> scops = new HashMap<>();
 
 
-    public void addCouponCondition() {
-        initScops();
+    public void addCouponAmount() {
         Workbook readwb = null;
 
         try {
@@ -78,47 +66,26 @@ public class ExcelOperater5 {
             WritableSheet ws = wwb.createSheet("sheet1", 0);
 
             for (int i = 0; i < rsRows; i++) {
-                if(i==0){
-                    for (int j = 0; j < rsColumns; j++) {
-                        Cell cell = readsheet.getCell(j, i);
-                        String val = cell.getContents();
-                        Label label = new Label(j, i, val);
-                        ws.addCell(label);
-                    }
-                    continue;
-                }
                 for (int j = 0; j < rsColumns; j++) {
-                    if(j==4) {
-                        Cell cell = readsheet.getCell(0, i);
-                        String itnodeCouponId = cell.getContents();
-                        String conditionKey = CouponConstant.COUPON_CONDITION+itnodeCouponId;
-                        String conditionVal = (String) redisService.get(conditionKey);
-                        if(StringUtils.isEmpty(conditionVal)){
-                            continue;
-                        }
-                        String[] conditionVals = conditionVal.split("&");
-                        String catalog = conditionVals[0];
-                        String scope = scops.get(catalog);
+                    Cell cell = readsheet.getCell(j, i);
+                    String val = cell.getContents();
 
-                        Label label = new Label(4, i, scope);
-                        ws.addCell(label);
-
-
-                        if("1".equals(scope)){//类目,添加category_id
-                            label = new Label(6, i, conditionVals[1]);
-                            ws.addCell(label);
-                        }else if("2".equals(scope)){//商品,添加product_id
-                            label = new Label(5, i, conditionVals[1]);
-                            ws.addCell(label);
-                        }
-                    }else if(j!=5 && j!=6){
-                        Cell cell = readsheet.getCell(j, i);
-                        String val = cell.getContents();
-                        Label label = new Label(j, i, val);
-                        ws.addCell(label);
+                    //type：数据类型 1=优惠券⾯值，2=优惠券使⽤最低需满⾜的⾦额
+                    if(i!=0 && j==11){//满额
+                        cell = readsheet.getCell(0, i);
+                        String itnodeCouponId = cell.getContents();;
+                        String couponAmount = CouponConstant.COUPON_AMOUNT+itnodeCouponId+2;
+                        val = (String) redisService.get(couponAmount);
                     }
+                    if(i!=0 && j==12){//减额
+                        cell = readsheet.getCell(0, i);
+                        String itnodeCouponId = cell.getContents();;
+                        String couponAmount = CouponConstant.COUPON_AMOUNT+itnodeCouponId+1;
+                        val = (String) redisService.get(couponAmount);
+                    }
+                    Label label = new Label(j, i, val);
+                    ws.addCell(label);
                 }
-
 
             }
 
@@ -140,12 +107,6 @@ public class ExcelOperater5 {
 
         }
 
-    }
-
-    public void initScops(){
-        scops.put("0","0");
-        scops.put("4","1");
-        scops.put("3","2");
     }
 
 

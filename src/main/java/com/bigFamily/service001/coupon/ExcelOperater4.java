@@ -71,7 +71,7 @@ public class ExcelOperater4 {
                 cell = readsheet.getCell(3, i);
                 String value = cell.getContents().trim();
 
-
+                //type：数据类型 1=优惠券⾯值，2=优惠券使⽤最低需满⾜的⾦额
                 String couponAmount = CouponConstant.COUPON_AMOUNT+itnodeCouponId+type;
                 redisService.set(couponAmount,value);
 

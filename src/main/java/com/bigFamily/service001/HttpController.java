@@ -51,10 +51,10 @@ public class HttpController {
         return reslut;
     }
 
-    @GetMapping(value="/removeAllTuyaCoupon")
+    @GetMapping(value="/removeAllTuyaCoupon/{redisKey}")
     @ResponseBody
-    public String removeAllTuyaCoupon() throws IOException {
-        Set<String> keys = redisService.keys(CouponConstant.TUYA_COUPON_ID_KEY);
+    public String removeAllTuyaCoupon(@PathVariable(value = "redisKey", required = false) String redisKey) throws IOException {
+        Set<String> keys = redisService.keys(redisKey);
         redisService.deleteSet(keys);
         return "success";
     }

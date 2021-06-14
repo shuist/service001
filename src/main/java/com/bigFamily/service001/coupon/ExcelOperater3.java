@@ -47,7 +47,7 @@ public class ExcelOperater3 {
             //直接从本地文件创建Workbook
 
             InputStream instream =
-                    new FileInputStream("/Users/shuistyanlong/Documents/work/workspace/yangyi/couponByTuya/fss优惠券初始化.xls");
+                    new FileInputStream("/Users/shuistyanlong/Documents/work/workspace/yangyi/couponByTuya/1.fss优惠券初始化.xls");
 
             readwb = Workbook.getWorkbook(instream);
 

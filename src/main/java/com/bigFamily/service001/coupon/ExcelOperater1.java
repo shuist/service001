@@ -66,7 +66,7 @@ public class ExcelOperater1 {
             //直接从本地文件创建Workbook
 
             InputStream instream =
-                    new FileInputStream("/Users/shuistyanlong/Documents/work/workspace/yangyi/couponByTuya/优惠券主信息(加工时间).xls");
+                    new FileInputStream("/Users/shuistyanlong/Documents/work/workspace/yangyi/couponByTuya/0.优惠券主信息(加工时间).xls");
 
             readwb = Workbook.getWorkbook(instream);
 
@@ -229,7 +229,7 @@ public class ExcelOperater1 {
                         val = "1";
                     }
                     if (temp == 17) {//activity_id
-                        val = "";
+                        val = redisService.increment().toString();
                     }
                     if (temp == 18) {//use_activity_id
                         val = "";
@@ -237,7 +237,7 @@ public class ExcelOperater1 {
                     if (temp == 19) {//version
                         val = "0";
                     }
-                    if (temp == 20) {//use_activity_id
+                    if (temp == 20) {//deleted
                         val = "0";
                     }
                     if (temp == 21) {//create_by

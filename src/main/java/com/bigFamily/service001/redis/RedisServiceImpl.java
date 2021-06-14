@@ -87,5 +87,11 @@ public class RedisServiceImpl {
         ListOperations<String,String> listOps = stringRedisTemplate.opsForList();
         return listOps;
     }
+
+    public Long increment(){
+        Long increment = stringRedisTemplate.opsForValue().increment("shop:mini:activity:couponActivityId");
+        return increment;
+    }
 }
+
 

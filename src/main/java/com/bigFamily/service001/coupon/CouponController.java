@@ -22,6 +22,9 @@ public class CouponController {
     @Autowired
     private ExcelOperater4 excelOperater4;
 
+    @Autowired
+    private ExcelOperater5 excelOperater5;
+
     @RequestMapping(value="/handleCouponTimespan", method= RequestMethod.GET)
     @ResponseBody
     public String handleCouponTimespan(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -54,6 +57,13 @@ public class CouponController {
     @ResponseBody
     public String loadCouponAmount(){
         excelOperater4.loadCouponAmount();
+        return "success";
+    }
+
+    @GetMapping(value="/addCouponAmount")
+    @ResponseBody
+    public String addCouponAmount(){
+        excelOperater5.addCouponAmount();
         return "success";
     }
 }
