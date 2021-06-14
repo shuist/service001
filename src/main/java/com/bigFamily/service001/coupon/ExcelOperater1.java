@@ -86,7 +86,7 @@ public class ExcelOperater1 {
             int rsRows = readsheet.getRows();
 
 
-            //利用已经创建的Excel工作薄,创建新的可写入的Excel工作薄
+            //利用已经创建的Excel工作薄 ,创建新的可写入的Excel工作薄
             File filewrite = new File("/Users/shuistyanlong/Documents/work/workspace/yangyi/couponByTuya/1.fss优惠券初始化.xls");
             filewrite.createNewFile();
             OutputStream os = new FileOutputStream(filewrite);
