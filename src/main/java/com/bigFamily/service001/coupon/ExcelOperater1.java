@@ -185,6 +185,11 @@ public class ExcelOperater1 {
                     }
                     if (temp == 2) {//生成code
                         val = RandomUtils.nextInt(10, 100) + StringUtil.generateShortUUID();
+
+                        Cell cell = readsheet.getCell(0, i);
+                        String tuyaCouponId = cell.getContents();
+                        String key = CouponConstant.TUYA_COUPON_ID_KEY2+tuyaCouponId;
+                        redisService.set(key,val);
                     }
                     if (temp == 3) {//固定二维码
                         val = "https://philips-shop-uat.oss-cn-shanghai.aliyuncs.com/coupon/images/772f36daeb734260a0b9d03e162cd9c1.png?Expires=1907292982&OSSAccessKeyId=LTAI4FwEi4gRwEkW4qkMYW3C&Signature=TCYUARuhsI4Laiufl2%2F6NRNuszY%3D";

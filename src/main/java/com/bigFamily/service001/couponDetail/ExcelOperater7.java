@@ -1,14 +1,18 @@
 package com.bigFamily.service001.couponDetail;//in ExcelOperater
 
+import com.bigFamily.service001.coupon.CouponConstant;
+import com.bigFamily.service001.redis.RedisServiceImpl;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 
 /**
@@ -16,6 +20,8 @@ import java.text.SimpleDateFormat;
  */
 @Component
 public class ExcelOperater7 {
+    @Autowired
+    private RedisServiceImpl redisService;
 
     public void initCouponDetail() {
 
@@ -98,39 +104,84 @@ public class ExcelOperater7 {
                     continue;
                 }
 
-                for (int j = 0; j < 10; j++) {
+                for (int j = 0; j < 17; j++) {
                     int temp = j+1;
                     String val = "";
                     if (temp == 1) {//生成id
-
+                        val = UUID.randomUUID().toString().replaceAll("-", "");
                     }
                     if (temp == 2) {//coupon_id
-                        Cell cell = readsheet.getCell(0, i);
+                        Cell cell = readsheet.getCell(1, i);
+                        String tuyaCouponId = cell.getContents();
+                        String key = CouponConstant.TUYA_COUPON_ID_KEY+tuyaCouponId;
+                        String itnodeCouponId = (String) redisService.get(key);
+                        val = itnodeCouponId;
+                    }
+                    if (temp == 3) {//user_id
+                        Cell cell = readsheet.getCell(2, i);
                         val = cell.getContents();
                     }
-                    if (temp == 3) {//channel_id
-                        val = "6";
-                    }
-                    if (temp == 4) {//channel_name
-                        val = "飞利浦之家";
-                    }
-                    if (temp == 5) {//is_publish
-                        val = "1";
-                    }
-                    if (temp == 6) {//created_by
-                        val = "涂鸦导入";
-                    }
-                    if (temp == 7) {//updated_by
+                    if (temp == 4) {//unique_id
                         val = "";
                     }
-                    if (temp == 8) {//create_time
-
+                    if (temp == 5) {//apply_time
+                        Cell cell = readsheet.getCell(3, i);
+                        String effectiveBeginTime = cell.getContents();
+                        String result = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(effectiveBeginTime);
+                        val = result;
                     }
-                    if (temp == 9) {//update_time
-
+                    if (temp == 6) {//use_time
+                        Cell cell = readsheet.getCell(8, i);
+                        String effectiveBeginTime = cell.getContents();
+                        String result = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(effectiveBeginTime);
+                        val = result;
                     }
-                    if (temp == 10) {//qr_code
-                        val = "https://philips-shop-uat.oss-cn-shanghai.aliyuncs.com/coupon/images/772f36daeb734260a0b9d03e162cd9c1.png?Expires=1907292982&OSSAccessKeyId=LTAI4FwEi4gRwEkW4qkMYW3C&Signature=TCYUARuhsI4Laiufl2%2F6NRNuszY%3D";
+                    if (temp == 7) {//status
+                        Cell cell = readsheet.getCell(9, i);
+                        String couponStatus = cell.getContents();
+                        if("3".equals(couponStatus)){
+                            couponStatus = "2";
+                        }
+                        if("4".equals(couponStatus)){
+                            couponStatus = "2";
+                        }
+                        val = couponStatus;
+                    }
+                    if (temp == 8) {//order_id
+                        val = "";
+                    }
+                    if (temp == 9) {//deleted
+                        val = "0";
+                    }
+                    if (temp == 10) {//create_by
+                        val = "涂鸦导入";
+                    }
+                    if (temp == 11) {//update_by
+                        val = "";
+                    }
+                    if (temp == 12) {//create_time
+                        val = "";
+                    }
+                    if (temp == 13) {//update_time
+                        val = "";
+                    }
+                    if (temp == 14) {//code 券码
+                        Cell cell = readsheet.getCell(1, i);
+                        String tuyaCouponId = cell.getContents();
+                        String key = CouponConstant.TUYA_COUPON_ID_KEY2+tuyaCouponId;
+                        val = (String) redisService.get(key);
+                    }
+                    if (temp == 15) {//channel_id
+                        val = "6";
+                    }
+                    if (temp == 16) {//apply_channel_id
+                        val = "6";
+                    }
+                    if (temp == 17) {//expire_time
+                        Cell cell = readsheet.getCell(11, i);
+                        String effectiveBeginTime = cell.getContents();
+                        String result = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(effectiveBeginTime);
+                        val = result;
                     }
                     Label label = new Label(j, i, val);
                     ws.addCell(label);

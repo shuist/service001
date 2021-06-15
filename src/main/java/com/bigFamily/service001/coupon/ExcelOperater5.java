@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,13 +77,23 @@ public class ExcelOperater5 {
                         cell = readsheet.getCell(0, i);
                         String itnodeCouponId = cell.getContents();;
                         String couponAmount = CouponConstant.COUPON_AMOUNT+itnodeCouponId+2;
-                        val = (String) redisService.get(couponAmount);
+                        if(redisService.get(couponAmount) != null) {
+                            int amount = Integer.parseInt((String) redisService.get(couponAmount)) ;
+                            double amountDouble = amount / 100;
+                            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("0.00");
+                            val = df.format(amountDouble);
+                        }
                     }
                     if(i!=0 && j==12){//减额
                         cell = readsheet.getCell(0, i);
                         String itnodeCouponId = cell.getContents();;
                         String couponAmount = CouponConstant.COUPON_AMOUNT+itnodeCouponId+1;
-                        val = (String) redisService.get(couponAmount);
+                        if(redisService.get(couponAmount) != null) {
+                            int amount = Integer.parseInt((String) redisService.get(couponAmount)) ;
+                            double amountDouble = amount / 100;
+                            java.text.DecimalFormat   df   =new   java.text.DecimalFormat("0.00");
+                            val = df.format(amountDouble);
+                        }
                     }
                     Label label = new Label(j, i, val);
                     ws.addCell(label);
