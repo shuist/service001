@@ -8,4 +8,7 @@ public class CouponConstant {
     public static final String COUPON_CONDITION="coupon_condition";
     public static final String COUPON_AMOUNT="coupon_amount";
     public static final String TUYPA_PRODUCT_CODE="tuypa_product_code";
+    public static final String TUYPA_USER_ID="tuypa_user_id";
+    public static final String INVITATION_CODE="invitation_code";
+    public static final String TUYPA_ORDER_ID="tuypa_order_id";
 }

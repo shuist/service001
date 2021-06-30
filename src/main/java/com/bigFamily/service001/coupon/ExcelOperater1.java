@@ -161,11 +161,15 @@ public class ExcelOperater1 {
                     ws.addCell(label);
                     label = new Label(30, i, "valid_type");
                     ws.addCell(label);
+                    label = new Label(31, i, "tuya_coupon_code");
+                    ws.addCell(label);
+                    label = new Label(32, i, "tuya_coupon_id");
+                    ws.addCell(label);
                     continue;
                 }
 
 
-                for (int j = 0; j < 31; j++) {
+                for (int j = 0; j < 33; j++) {
 
 
                     int temp = j+1;
@@ -178,10 +182,10 @@ public class ExcelOperater1 {
                         String key = CouponConstant.TUYA_COUPON_ID_KEY+tuyaCouponId;
                         redisService.set(key,val);
 
-                        cell = readsheet.getCell(1, i);
-                        String tuyaCouponCode = cell.getContents().trim();
-                        String tuyaCouponCodekey = CouponConstant.TUYA_COUPON_CODE+tuyaCouponCode;
-                        redisService.set(tuyaCouponCodekey,val);
+//                        cell = readsheet.getCell(1, i);
+//                        String tuyaCouponCode = cell.getContents().trim();
+//                        String tuyaCouponCodekey = CouponConstant.TUYA_COUPON_CODE+tuyaCouponCode;
+//                        redisService.set(tuyaCouponCodekey,val);
                     }
                     if (temp == 2) {//生成code
                         val = RandomUtils.nextInt(10, 100) + StringUtil.generateShortUUID();
@@ -285,7 +289,15 @@ public class ExcelOperater1 {
                         val = "";
                     }
                     if (temp == 31) {//valid_type
-                        val = "";
+                        val = "1";
+                    }
+                    if (temp == 32) {//tuya_coupon_code
+                        Cell cell = readsheet.getCell(1, i);
+                        val = cell.getContents();
+                    }
+                    if (temp == 33) {//tuya_coupon_id
+                        Cell cell = readsheet.getCell(0, i);
+                        val = cell.getContents();
                     }
 
                     Label label = new Label(j, i, val);

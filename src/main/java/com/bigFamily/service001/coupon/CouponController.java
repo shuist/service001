@@ -1,5 +1,9 @@
 package com.bigFamily.service001.coupon;
 
+import com.bigFamily.service001.couponDetail.ExcelOperater7;
+import com.bigFamily.service001.couponDetail.ExcelOperater10;
+import com.bigFamily.service001.couponDetail.ExcelOperater8;
+import com.bigFamily.service001.couponDetail.ExcelOperater9;
 import com.bigFamily.service001.couponchannel.ExcelOperater6;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +35,18 @@ public class CouponController {
 
     @Autowired
     private ExcelOperater6 excelOperater6;
+
+    @Autowired
+    private ExcelOperater7 excelOperater7;
+
+    @Autowired
+    private ExcelOperater8 excelOperater8;
+
+    @Autowired
+    private ExcelOperater9 excelOperater9;
+
+    @Autowired
+    private ExcelOperater10 excelOperater10;
 
     @RequestMapping(value="/handleCouponTimespan", method= RequestMethod.GET)
     @ResponseBody
@@ -85,6 +101,36 @@ public class CouponController {
     @ResponseBody
     public String buildCouponChannel(){
         excelOperater6.buildCouponChannel();
+        return "success";
+    }
+
+    @GetMapping(value="/loadMembers")
+    @ResponseBody
+    public String loadMembers(){
+        excelOperater7.loadMembers();
+        return "success";
+    }
+
+    @GetMapping(value="/loadTuyaOrders")
+    @ResponseBody
+    public String loadTuyaOrders(){
+        excelOperater8.loadTuyaOrders();
+        return "success";
+    }
+
+
+    @GetMapping(value="/loadOrderCoupons")
+    @ResponseBody
+    public String loadOrderCoupons(){
+        excelOperater9.loadOrderCoupons();
+        return "success";
+    }
+
+    //初始化优惠券:1.已使用的优惠券2.未使用的优惠券
+    @GetMapping(value="/initCouponDetail/{tuyaCouponStatus}")
+    @ResponseBody
+    public String initCouponDetail(@PathVariable(value = "tuyaCouponStatus", required = false) String tuyaCouponStatus){
+        excelOperater10.initCouponDetail(tuyaCouponStatus);
         return "success";
     }
 }

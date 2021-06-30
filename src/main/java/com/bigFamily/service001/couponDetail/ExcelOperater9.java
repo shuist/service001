@@ -13,19 +13,19 @@ import java.io.InputStream;
 
 
 /**
- *导入itnode用户数据
- * 1.unique_id 用户unique_id
- * 2.user_id 用户id
- * 3.涂鸦用户id
+ * 导入订单优惠券信息
+ * 1.order_coupon_id 订单优惠券ID
+ * 2.order_id 订单号
+ * 3.code 邀请码
  */
 @Component
-public class ExcelOperater7 {
+public class ExcelOperater9 {
 
     @Autowired
     private  RedisServiceImpl redisService;
 
 
-    public  void loadMembers() {
+    public  void loadOrderCoupons() {
 
         Workbook readwb = null;
 
@@ -36,7 +36,7 @@ public class ExcelOperater7 {
             //直接从本地文件创建Workbook
 
             InputStream instream =
-                    new FileInputStream("/Users/shuistyanlong/Documents/work/workspace/yangyi/couponByTuya/member_thin.xls");
+                    new FileInputStream("/Users/shuistyanlong/Documents/work/workspace/yangyi/couponByTuya/订单优惠券信息.xls");
 
             readwb = Workbook.getWorkbook(instream);
 
@@ -61,18 +61,18 @@ public class ExcelOperater7 {
                 if(i==0){
                     continue;
                 }
-                Cell cell = readsheet.getCell(0, i);
-                String itnodeUniqueId = cell.getContents();
-
-                cell = readsheet.getCell(1, i);
-                String itnodeUserId = cell.getContents();
-                String itnodeUserInfo = itnodeUserId+"&"+itnodeUniqueId;
+                Cell cell = readsheet.getCell(1, i);
+                String orderId = cell.getContents().trim();
 
                 cell = readsheet.getCell(2, i);
-                String tuyaUserId = cell.getContents();
-                String key = CouponConstant.TUYPA_USER_ID+tuyaUserId;
+                String code = cell.getContents().trim();
 
-                redisService.set(key,itnodeUserInfo);
+                String orderIdkey = CouponConstant.TUYPA_ORDER_ID+orderId;
+                String id = (String) redisService.get(orderIdkey);
+
+                String key = CouponConstant.INVITATION_CODE+code;
+//                System.out.println(orderId+":"+id);
+                redisService.set(key,id);
 
             }
 

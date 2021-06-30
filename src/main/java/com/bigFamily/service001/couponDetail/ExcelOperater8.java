@@ -13,19 +13,18 @@ import java.io.InputStream;
 
 
 /**
- *导入itnode用户数据
- * 1.unique_id 用户unique_id
- * 2.user_id 用户id
- * 3.涂鸦用户id
+ * 加载订单主数据
+ * 1.id 订单id
+ * 2.order_id 订单码
  */
 @Component
-public class ExcelOperater7 {
+public class ExcelOperater8 {
 
     @Autowired
     private  RedisServiceImpl redisService;
 
 
-    public  void loadMembers() {
+    public  void loadTuyaOrders() {
 
         Workbook readwb = null;
 
@@ -36,7 +35,7 @@ public class ExcelOperater7 {
             //直接从本地文件创建Workbook
 
             InputStream instream =
-                    new FileInputStream("/Users/shuistyanlong/Documents/work/workspace/yangyi/couponByTuya/member_thin.xls");
+                    new FileInputStream("/Users/shuistyanlong/Documents/work/workspace/yangyi/couponByTuya/订单主数据.xls");
 
             readwb = Workbook.getWorkbook(instream);
 
@@ -62,17 +61,14 @@ public class ExcelOperater7 {
                     continue;
                 }
                 Cell cell = readsheet.getCell(0, i);
-                String itnodeUniqueId = cell.getContents();
+                String id = cell.getContents().trim();
 
                 cell = readsheet.getCell(1, i);
-                String itnodeUserId = cell.getContents();
-                String itnodeUserInfo = itnodeUserId+"&"+itnodeUniqueId;
+                String orderId = cell.getContents().trim();
 
-                cell = readsheet.getCell(2, i);
-                String tuyaUserId = cell.getContents();
-                String key = CouponConstant.TUYPA_USER_ID+tuyaUserId;
+                String key = CouponConstant.TUYPA_ORDER_ID+orderId;
 
-                redisService.set(key,itnodeUserInfo);
+                redisService.set(key,id);
 
             }
 
