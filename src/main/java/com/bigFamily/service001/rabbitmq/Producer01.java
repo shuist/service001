@@ -17,11 +17,11 @@ public class Producer01 {
         try
         {
             ConnectionFactory factory = new ConnectionFactory();
-            factory.setHost("139.196.171.92");
+            factory.setHost("127.0.0.1");
             factory.setPort(5672);
-            factory.setUsername("guest");
-            factory.setPassword("guest");
-            factory.setVirtualHost("/");//rabbitmq默认虚拟机名称为“/”，虚拟机相当于一个独立的mq服务器
+            factory.setUsername("admin");
+            factory.setPassword("admin");
+            factory.setVirtualHost("my_vhost");//rabbitmq默认虚拟机名称为“/”，虚拟机相当于一个独立的mq服务器
             //创建与RabbitMQ服务的TCP连接
             connection  = factory.newConnection();
             //创建与Exchange的通道，每个连接可以创建多个通道，每个通道代表一个会话任务

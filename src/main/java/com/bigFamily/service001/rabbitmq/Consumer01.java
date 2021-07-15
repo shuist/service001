@@ -10,8 +10,11 @@ public class Consumer01 {
     public static void main(String[] args) throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
         //设置MabbitMQ所在服务器的ip和端口
-        factory.setHost("139.196.171.92");
+        factory.setHost("127.0.0.1");
         factory.setPort(5672);
+        factory.setUsername("admin");
+        factory.setPassword("admin");
+        factory.setVirtualHost("my_vhost");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
         //声明队列
